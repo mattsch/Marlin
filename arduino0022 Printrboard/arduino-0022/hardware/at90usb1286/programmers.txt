@@ -1,2 +1,0 @@
-usbtinyisp.name=USBtinyISP
-usbtinyisp.protocol=usbtiny

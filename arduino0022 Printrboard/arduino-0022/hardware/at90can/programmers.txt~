@@ -1,9 +1,0 @@
-jtagicemki.name=JTAG ICE mkI
-jtagicemki.communication=serial
-jtagicemki.protocol=jtagmki
-
-usbtinyisp.name=USBtinyISP
-usbtinyisp.protocol=usbtiny
-
-
-
