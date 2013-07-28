@@ -1,0 +1,193 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x6d12382b, pid=73536, tid=73364
+#
+# JRE version: 6.0_16-b01
+# Java VM: Java HotSpot(TM) Client VM (14.2-b01 mixed mode windows-x86 )
+# Problematic frame:
+# C  [awt.dll+0x7382b]
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x10906800):  JavaThread "AWT-Windows" daemon [_thread_in_native, id=73364, stack(0x10f00000,0x10f50000)]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0xb60f9c24
+
+Registers:
+EAX=0xb60f9c24, EBX=0x76b1444f, ECX=0x10f4f74c, EDX=0x6d1765b0
+ESP=0x10f4f714, EBP=0x0000a220, ESI=0x10a4df20, EDI=0x00000111
+EIP=0x6d12382b, EFLAGS=0x00010286
+
+Top of Stack: (sp=0x10f4f714)
+0x10f4f714:   6d12688f 0000a220 00000000 00000000
+0x10f4f724:   0000a220 10a4df20 10f4f7a4 00000111
+0x10f4f734:   00000001 10f4f778 7509702c 009c20c0
+0x10f4f744:   00000000 10906910 10f4f798 6d16e058
+0x10f4f754:   00000000 6d14db6e 00000111 0000a220
+0x10f4f764:   00000000 00000000 006a0104 00000000
+0x10f4f774:   00000000 6d11d66b 00000111 0000a220
+0x10f4f784:   00000000 00000000 6d11d610 00000000 
+
+Instructions: (pc=0x6d12382b)
+0x6d12381b:   04 50 b9 38 29 1b 6d e8 49 67 02 00 85 c0 74 07
+0x6d12382b:   8b 10 8b c8 ff 52 04 b8 02 00 00 00 c2 0c 00 50 
+
+
+Stack: [0x10f00000,0x10f50000],  sp=0x10f4f714,  free space=317k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [awt.dll+0x7382b]
+
+[error occurred during error reporting (printing native stack), id 0xc0000005]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  sun.awt.windows.WToolkit.eventLoop()V+0
+j  sun.awt.windows.WToolkit.run()V+69
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x17512800 JavaThread "D3D Screen Updater" daemon [_thread_blocked, id=70068, stack(0x18290000,0x182e0000)]
+  0x00267000 JavaThread "DestroyJavaVM" [_thread_blocked, id=70968, stack(0x00200000,0x00250000)]
+  0x109f7c00 JavaThread "TimerQueue" daemon [_thread_blocked, id=67944, stack(0x178f0000,0x17940000)]
+  0x10a13400 JavaThread "AWT-EventQueue-0" [_thread_in_native, id=71436, stack(0x168b0000,0x16900000)]
+=>0x10906800 JavaThread "AWT-Windows" daemon [_thread_in_native, id=73364, stack(0x10f00000,0x10f50000)]
+  0x108d6000 JavaThread "AWT-Shutdown" [_thread_blocked, id=62332, stack(0x10e70000,0x10ec0000)]
+  0x108d5800 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=71120, stack(0x10e20000,0x10e70000)]
+  0x02514000 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=68056, stack(0x10ac0000,0x10b10000)]
+  0x02510400 JavaThread "CompilerThread0" daemon [_thread_blocked, id=73240, stack(0x10830000,0x10880000)]
+  0x0250d400 JavaThread "Attach Listener" daemon [_thread_blocked, id=72708, stack(0x107a0000,0x107f0000)]
+  0x02502c00 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=72888, stack(0x10710000,0x10760000)]
+  0x024d6400 JavaThread "Finalizer" daemon [_thread_blocked, id=71620, stack(0x10680000,0x106d0000)]
+  0x024d1800 JavaThread "Reference Handler" daemon [_thread_blocked, id=70084, stack(0x105f0000,0x10640000)]
+
+Other Threads:
+  0x024cdc00 VMThread [stack: 0x10560000,0x105b0000] [id=70924]
+  0x0251cc00 WatcherThread [stack: 0x10b50000,0x10ba0000] [id=70960]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ def new generation   total 9088K, used 5123K [0x04520000, 0x04ef0000, 0x04ef0000)
+  eden space 8128K,  62% used [0x04520000, 0x04a18080, 0x04d10000)
+  from space 960K,   3% used [0x04d10000, 0x04d18c40, 0x04e00000)
+  to   space 960K,   0% used [0x04e00000, 0x04e00000, 0x04ef0000)
+ tenured generation   total 121024K, used 14908K [0x04ef0000, 0x0c520000, 0x0c520000)
+   the space 121024K,  12% used [0x04ef0000, 0x05d7f088, 0x05d7f200, 0x0c520000)
+ compacting perm gen  total 12288K, used 11324K [0x0c520000, 0x0d120000, 0x10520000)
+   the space 12288K,  92% used [0x0c520000, 0x0d02f070, 0x0d02f200, 0x0d120000)
+No shared spaces configured.
+
+Dynamic libraries:
+0x00400000 - 0x00424000 	C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\java\bin\javaw.exe
+0x77940000 - 0x77ac0000 	C:\Windows\SysWOW64\ntdll.dll
+0x76b00000 - 0x76c10000 	C:\Windows\syswow64\kernel32.dll
+0x76970000 - 0x769b7000 	C:\Windows\syswow64\KERNELBASE.dll
+0x76220000 - 0x762c0000 	C:\Windows\syswow64\ADVAPI32.dll
+0x769c0000 - 0x76a6c000 	C:\Windows\syswow64\msvcrt.dll
+0x75fe0000 - 0x75ff9000 	C:\Windows\SysWOW64\sechost.dll
+0x76670000 - 0x76760000 	C:\Windows\syswow64\RPCRT4.dll
+0x75020000 - 0x75080000 	C:\Windows\syswow64\SspiCli.dll
+0x75010000 - 0x7501c000 	C:\Windows\syswow64\CRYPTBASE.dll
+0x75080000 - 0x75180000 	C:\Windows\syswow64\USER32.dll
+0x751f0000 - 0x75280000 	C:\Windows\syswow64\GDI32.dll
+0x77910000 - 0x7791a000 	C:\Windows\syswow64\LPK.dll
+0x76ec0000 - 0x76f5d000 	C:\Windows\syswow64\USP10.dll
+0x761c0000 - 0x76220000 	C:\Windows\system32\IMM32.DLL
+0x76df0000 - 0x76ebc000 	C:\Windows\syswow64\MSCTF.dll
+0x7c340000 - 0x7c396000 	C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\java\bin\msvcr71.dll
+0x6d8b0000 - 0x6db3b000 	C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\java\bin\client\jvm.dll
+0x74750000 - 0x74782000 	C:\Windows\system32\WINMM.dll
+0x73220000 - 0x7326c000 	C:\Windows\system32\apphelp.dll
+0x6d860000 - 0x6d86c000 	C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\java\bin\verify.dll
+0x6d3e0000 - 0x6d3ff000 	C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\java\bin\java.dll
+0x6d340000 - 0x6d348000 	C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\java\bin\hpi.dll
+0x76660000 - 0x76665000 	C:\Windows\syswow64\PSAPI.DLL
+0x6d8a0000 - 0x6d8af000 	C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\java\bin\zip.dll
+0x6d0b0000 - 0x6d1fa000 	C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\java\bin\awt.dll
+0x73500000 - 0x73551000 	C:\Windows\system32\WINSPOOL.DRV
+0x76c30000 - 0x76d8c000 	C:\Windows\syswow64\ole32.dll
+0x71970000 - 0x71b0e000 	C:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.17514_none_41e6975e2bd6f2b2\comctl32.dll
+0x75180000 - 0x751d7000 	C:\Windows\syswow64\SHLWAPI.dll
+0x72f90000 - 0x72fa3000 	C:\Windows\system32\DWMAPI.DLL
+0x72d80000 - 0x72e00000 	C:\Windows\system32\uxtheme.dll
+0x74c70000 - 0x74c8a000 	C:\Program Files (x86)\TeamViewer\Version8\tv_w32.dll
+0x74f40000 - 0x74f49000 	C:\Windows\system32\VERSION.dll
+0x6c240000 - 0x6c267000 	C:\Windows\system32\CRTDLL.dll
+0x75310000 - 0x75f5a000 	C:\Windows\syswow64\SHELL32.dll
+0x732c0000 - 0x732d6000 	C:\Windows\system32\CRYPTSP.dll
+0x73280000 - 0x732bb000 	C:\Windows\system32\rsaenh.dll
+0x74490000 - 0x744a7000 	C:\Windows\system32\USERENV.dll
+0x744f0000 - 0x744fb000 	C:\Windows\system32\profapi.dll
+0x6d6c0000 - 0x6d6d3000 	C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\java\bin\net.dll
+0x76620000 - 0x76655000 	C:\Windows\syswow64\WS2_32.dll
+0x762c0000 - 0x762c6000 	C:\Windows\syswow64\NSI.dll
+0x743f0000 - 0x7442c000 	C:\Windows\system32\mswsock.dll
+0x73990000 - 0x73996000 	C:\Windows\System32\wship6.dll
+0x729f0000 - 0x72a00000 	C:\Windows\system32\NLAapi.dll
+0x729e0000 - 0x729f0000 	C:\Windows\system32\napinsp.dll
+0x729c0000 - 0x729d2000 	C:\Windows\system32\pnrpnsp.dll
+0x73940000 - 0x73984000 	C:\Windows\system32\DNSAPI.dll
+0x729b0000 - 0x729b8000 	C:\Windows\System32\winrnr.dll
+0x72990000 - 0x7299d000 	C:\Windows\system32\wshbth.dll
+0x73910000 - 0x73931000 	C:\Program Files (x86)\Bonjour\mdnsNSP.dll
+0x74090000 - 0x740ac000 	C:\Windows\system32\Iphlpapi.DLL
+0x73fa0000 - 0x73fa7000 	C:\Windows\system32\WINNSI.DLL
+0x743e0000 - 0x743e5000 	C:\Windows\System32\wshtcpip.dll
+0x73900000 - 0x73906000 	C:\Windows\system32\rasadhlp.dll
+0x738c0000 - 0x738f8000 	C:\Windows\System32\fwpuclnt.dll
+0x11080000 - 0x110cc000 	G:\AppData\Local\Temp\jna1633683989162491293.tmp
+0x6d2e0000 - 0x6d334000 	C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\java\bin\fontmanager.dll
+0x75280000 - 0x7530f000 	C:\Windows\syswow64\OLEAUT32.dll
+0x63a40000 - 0x63b27000 	C:\Windows\system32\aticfx32.dll
+0x62e40000 - 0x62e4b000 	C:\Windows\system32\atiu9pag.dll
+0x134a0000 - 0x13a88000 	C:\Windows\system32\igdumd32.dll
+0x6d6e0000 - 0x6d6e9000 	C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\java\bin\nio.dll
+0x16a00000 - 0x16a12000 	C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\rxtxSerial.dll
+0x72a10000 - 0x72bd3000 	C:\Windows\system32\d3d9.dll
+0x72a00000 - 0x72a06000 	C:\Windows\system32\d3d8thk.dll
+0x62e50000 - 0x62f44000 	C:\Windows\system32\dlumd32.dll
+0x71420000 - 0x7150b000 	C:\Windows\system32\dbghelp.dll
+0x76480000 - 0x7661d000 	C:\Windows\syswow64\SETUPAPI.dll
+0x76450000 - 0x76477000 	C:\Windows\syswow64\CFGMGR32.dll
+0x76c10000 - 0x76c22000 	C:\Windows\syswow64\DEVOBJ.dll
+0x74480000 - 0x7448d000 	C:\Windows\system32\wtsapi32.dll
+0x60e00000 - 0x61341000 	C:\Windows\system32\atiumdag.dll
+0x615d0000 - 0x61a5d000 	C:\Windows\system32\atiumdva.dll
+
+VM Arguments:
+jvm_args: -Xms128m -Xmx128m 
+java_command: processing.app.Base
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=C:\Program Files (x86)\AMD APP\bin\x86_64;C:\Program Files (x86)\AMD APP\bin\x86;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\Atmel\Flip 3.4.7\bin;C:\Users\CyberPower\Downloads\PrintrboardDrivers\arduino0022 Printrboard\arduino-0022\java\bin
+USERNAME=CyberPower
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 58 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 Build 7601 Service Pack 1
+
+CPU:total 8 (8 cores per cpu, 2 threads per core) family 6 model 58 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, ht
+
+Memory: 4k page, physical 4194303k(4194303k free), swap 4194303k(4194303k free)
+
+vm_info: Java HotSpot(TM) Client VM (14.2-b01) for windows-x86 JRE (1.6.0_16-b01), built on Jul 31 2009 11:26:58 by "java_re" with MS VC++ 7.1
+
+time: Fri Jan 25 19:18:12 2013
+elapsed time: 13742 seconds
+
