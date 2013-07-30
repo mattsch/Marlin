@@ -96,6 +96,7 @@ static void menu_action_setting_edit_callback_long5(const char* pstr, unsigned l
     if (encoderPosition > 0x8000) encoderPosition = 0; \
     if (encoderPosition / ENCODER_STEPS_PER_MENU_ITEM < currentMenuViewOffset) currentMenuViewOffset = encoderPosition / ENCODER_STEPS_PER_MENU_ITEM;\
     uint8_t _lineNr = currentMenuViewOffset, _menuItemNr; \
+    bool wasClicked = LCD_CLICKED;\
     for(uint8_t _drawLineNr = 0; _drawLineNr < LCD_HEIGHT; _drawLineNr++, _lineNr++) { \
         _menuItemNr = 0;
 #define MENU_ITEM(type, label, args...) do { \
@@ -108,7 +109,7 @@ static void menu_action_setting_edit_callback_long5(const char* pstr, unsigned l
                 lcd_implementation_drawmenu_ ## type (_drawLineNr, _label_pstr , ## args ); \
             }\
         }\
-        if (LCD_CLICKED && (encoderPosition / ENCODER_STEPS_PER_MENU_ITEM) == _menuItemNr) {\
+        if (wasClicked && (encoderPosition / ENCODER_STEPS_PER_MENU_ITEM) == _menuItemNr) {\
             lcd_quick_feedback(); \
             menu_action_ ## type ( args ); \
             return;\
@@ -374,7 +375,12 @@ static void lcd_move_x()
         if (max_software_endstops && current_position[X_AXIS] > X_MAX_POS)
             current_position[X_AXIS] = X_MAX_POS;
         encoderPosition = 0;
+        #ifdef DELTA
+        calculate_delta(current_position);
+        plan_buffer_line(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS], 600, active_extruder);
+        #else
         plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS], 600, active_extruder);
+        #endif
         lcdDrawUpdate = 1;
     }
     if (lcdDrawUpdate)
@@ -398,7 +404,12 @@ static void lcd_move_y()
         if (max_software_endstops && current_position[Y_AXIS] > Y_MAX_POS)
             current_position[Y_AXIS] = Y_MAX_POS;
         encoderPosition = 0;
+        #ifdef DELTA
+        calculate_delta(current_position);
+        plan_buffer_line(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS], 600, active_extruder);
+        #else
         plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS], 600, active_extruder);
+        #endif
         lcdDrawUpdate = 1;
     }
     if (lcdDrawUpdate)
@@ -422,7 +433,12 @@ static void lcd_move_z()
         if (max_software_endstops && current_position[Z_AXIS] > Z_MAX_POS)
             current_position[Z_AXIS] = Z_MAX_POS;
         encoderPosition = 0;
+        #ifdef DELTA
+        calculate_delta(current_position);
+        plan_buffer_line(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS], homing_feedrate[Z_AXIS]/60, active_extruder);
+        #else
         plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS], homing_feedrate[Z_AXIS]/60, active_extruder);
+        #endif
         lcdDrawUpdate = 1;
     }
     if (lcdDrawUpdate)
@@ -442,7 +458,12 @@ static void lcd_move_e()
     {
         current_position[E_AXIS] += float((int)encoderPosition) * move_menu_scale;
         encoderPosition = 0;
+        #ifdef DELTA
+        calculate_delta(current_position);
+        plan_buffer_line(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS], 20, active_extruder);
+        #else
         plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS], 20, active_extruder);
+        #endif
         lcdDrawUpdate = 1;
     }
     if (lcdDrawUpdate)
@@ -674,6 +695,8 @@ static void lcd_sd_updir()
 
 void lcd_sdcard_menu()
 {
+    if (lcdDrawUpdate == 0 && LCD_CLICKED == 0) 
+        return;	// nothing to do (so don't thrash the SD card)
     uint16_t fileCnt = card.getnrfilenames();
     START_MENU();
     MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
