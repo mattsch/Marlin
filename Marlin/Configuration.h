@@ -190,9 +190,9 @@
 
 // If you are using a preconfigured hotend then you can use one of the value sets by uncommenting it
 // Ultimaker
-    #define  DEFAULT_Kp 33.11
-    #define  DEFAULT_Ki 3.18
-    #define  DEFAULT_Kd 86.26
+    #define  DEFAULT_Kp 39.22
+    #define  DEFAULT_Ki 3.79
+    #define  DEFAULT_Kd 101.51
 
 // Makergear
 //    #define  DEFAULT_Kp 7.0
@@ -324,9 +324,9 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 #define min_software_endstops false // If true, axis won't move to coordinates less than HOME_POS.
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
 // Travel limits after homing
-#define X_MAX_POS 145
+#define X_MAX_POS 114
 #define X_MIN_POS 0
-#define Y_MAX_POS 140
+#define Y_MAX_POS 125
 #define Y_MIN_POS 0
 #define Z_MAX_POS 138
 #define Z_MIN_POS 0
