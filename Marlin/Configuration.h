@@ -5,6 +5,13 @@
 // Advanced settings can be found in Configuration_adv.h
 // BASIC SETTINGS: select your board type, temperature sensor type, axis scaling, and endstop configuration
 
+//===========================================================================
+//============================= DELTA Printer ===============================
+//===========================================================================
+// For a Delta printer rplace the configuration files wilth the files in the 
+// example_configurations/delta directory.
+// 
+
 // User-specified version info of this build to display in [Pronterface, etc] terminal window during
 // startup. Implementation of an idea by Prof Braino to inform user that any changes made to this
 // build by the user have been successfully uploaded into firmware.
@@ -25,6 +32,7 @@
 // 11 = Gen7 v1.1, v1.2 = 11
 // 12 = Gen7 v1.3
 // 13 = Gen7 v1.4
+// 20 = Sethi 3D_1 
 // 3  = MEGA/RAMPS up to 1.2 = 3
 // 33 = RAMPS 1.3 / 1.4 (Power outputs: Extruder, Fan, Bed)
 // 34 = RAMPS 1.3 / 1.4 (Power outputs: Extruder0, Extruder1, Bed)
@@ -38,6 +46,7 @@
 // 64 = STB V1.1
 // 65 = Azteeg X1
 // 66 = Melzi with ATmega1284 (MaKr3d version)
+// 67 = Azteeg X3
 // 7  = Ultimaker
 // 71 = Ultimaker (Older electronics. Pre 1.5.4. This is rare)
 // 77 = 3Drag Controller
@@ -283,13 +292,50 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
 #define min_software_endstops true // If true, axis won't move to coordinates less than HOME_POS.
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
+
+//============================= Bed Auto Leveling ===========================
+
+//#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
+
+#ifdef ENABLE_AUTO_BED_LEVELING
+
+  // these are the positions on the bed to do the probing
+  #define LEFT_PROBE_BED_POSITION 15
+  #define RIGHT_PROBE_BED_POSITION 170
+  #define BACK_PROBE_BED_POSITION 180
+  #define FRONT_PROBE_BED_POSITION 20
+
+  // these are the offsets to the prob relative to the extruder tip (Hotend - Probe)
+  #define X_PROBE_OFFSET_FROM_EXTRUDER -25
+  #define Y_PROBE_OFFSET_FROM_EXTRUDER -29
+  #define Z_PROBE_OFFSET_FROM_EXTRUDER -12.35
+  
+  #define XY_TRAVEL_SPEED 8000         // X and Y axis travel speed between probes, in mm/min
+  
+  #define Z_RAISE_BEFORE_PROBING 15    //How much the extruder will be raised before traveling to the first probing point.
+  #define Z_RAISE_BETWEEN_PROBINGS 5  //How much the extruder will be raised when traveling from between next probing points
+
+
+  //If defined, the Probe servo will be turned on only during movement and then turned off to avoid jerk
+  //The value is the delay to turn the servo off after powered on - depends on the servo speed; 300ms is good value, but you can try lower it.
+  // You MUST HAVE the SERVO_ENDSTOPS defined to use here a value higher than zero otherwise your code will not compile.
+
+//  #define PROBE_SERVO_DEACTIVATION_DELAY 300  
+  
+#endif
+
 // Travel limits after homing
 #define X_MAX_POS 119
 #define X_MIN_POS 0
 #define Y_MAX_POS 130
 #define Y_MIN_POS 0
 #define Z_MAX_POS 140
+
+#ifndef ENABLE_AUTO_BED_LEVELING
 #define Z_MIN_POS 0
+#else
+#define Z_MIN_POS (-1*Z_PROBE_OFFSET_FROM_EXTRUDER)  //With Auto Bed Leveling, the Z_MIN MUST have the same distance as Z_PROBE
+#endif
 
 #define X_MAX_LENGTH (X_MAX_POS - X_MIN_POS)
 #define Y_MAX_LENGTH (Y_MAX_POS - Y_MIN_POS)
@@ -360,7 +406,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 //#define DOGLCD  // Support for SPI LCD 128x64 (Controller ST7565R graphic Display Family)
 //#define SDSUPPORT // Enable SD Card Support in Hardware Console
 //#define SDSLOW // Use slower SD transfer mode (not normally needed - uncomment if you're getting volume init error)
-
+//#define ENCODER_PULSES_PER_STEP 1 // Increase if you have a high resolution encoder
 //#define ULTIMAKERCONTROLLER //as available from the ultimaker online store.
 //#define ULTIPANEL  //the ultipanel as on thingiverse
 

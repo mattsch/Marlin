@@ -88,9 +88,14 @@ static void menu_action_setting_edit_callback_long5(const char* pstr, unsigned l
 
 #if !defined(LCD_I2C_VIKI)
   #define ENCODER_STEPS_PER_MENU_ITEM 5
-  #define ENCODER_PULSES_PER_STEP 1
+  #ifndef ENCODER_PULSES_PER_STEP
+    #define ENCODER_PULSES_PER_STEP 1
+  #endif
 #else
   #define ENCODER_STEPS_PER_MENU_ITEM 2 // VIKI LCD rotary encoder uses a different number of steps per rotation
+  #ifndef ENCODER_PULSES_PER_STEP
+    #define ENCODER_PULSES_PER_STEP 1
+  #endif
 #endif
 
 
@@ -99,7 +104,6 @@ static void menu_action_setting_edit_callback_long5(const char* pstr, unsigned l
     if (encoderPosition > 0x8000) encoderPosition = 0; \
     if (encoderPosition / ENCODER_STEPS_PER_MENU_ITEM < currentMenuViewOffset) currentMenuViewOffset = encoderPosition / ENCODER_STEPS_PER_MENU_ITEM;\
     uint8_t _lineNr = currentMenuViewOffset, _menuItemNr; \
-    bool wasClicked = LCD_CLICKED;\
     for(uint8_t _drawLineNr = 0; _drawLineNr < LCD_HEIGHT; _drawLineNr++, _lineNr++) { \
         _menuItemNr = 0;
 #define MENU_ITEM(type, label, args...) do { \
@@ -138,6 +142,7 @@ uint8_t currentMenuViewOffset;              /* scroll offset in the current menu
 uint32_t blocking_enc;
 uint8_t lastEncoderBits;
 uint32_t encoderPosition;
+bool wasClicked;
 #if (SDCARDDETECT > 0)
 bool lcd_oldcardstatus;
 #endif
@@ -961,6 +966,7 @@ void lcd_update()
     
     if (lcd_next_update_millis < millis())
     {
+      wasClicked = LCD_CLICKED;
 #ifdef ULTIPANEL
 		#ifdef REPRAPWORLD_KEYPAD
         	if (REPRAPWORLD_KEYPAD_MOVE_Z_UP) {
