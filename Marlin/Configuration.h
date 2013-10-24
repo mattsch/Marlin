@@ -88,33 +88,30 @@
 //
 //--NORMAL IS 4.7kohm PULLUP!-- 1kohm pullup can be used on hotend sensor, using correct resistor and table
 //
-//// Temperature sensor settings:
-//// -2 is thermocouple with MAX6675 (only for sensor 0)
-//// -1 is thermocouple with AD595
-//// 0 is not used
-//// 1 is 100k thermistor - best choice for EPCOS 100k (4.7k pullup)
-//// 2 is 200k thermistor - ATC Semitec 204GT-2 (4.7k pullup)
-//// 3 is mendel-parts thermistor (4.7k pullup)
-//// 4 is 10k thermistor !! do not use it for a hotend. It gives bad resolution
-//at high temp. !!
-//// 5 is 100K thermistor - ATC Semitec 104GT-2 (Used in ParCan) (4.7k pullup)
-//// 6 is 100k EPCOS - Not as accurate as table 1 (created using a fluke
-//thermocouple) (4.7k pullup)
-//// 7 is 100k Honeywell thermistor 135-104LAG-J01 (4.7k pullup)
-//// 71 is 100k Honeywell thermistor 135-104LAF-J01 (4.7k pullup)
-//// 8 is 100k 0603 SMD Vishay NTCS0603E3104FXT (4.7k pullup)
-//// 9 is 100k GE Sensing AL03006-58.2K-97-G1 (4.7k pullup)
-//// 10 is 100k RS thermistor 198-961 (4.7k pullup)
-//// 60 is 100k Maker's Tool Works Kapton Bed Thermister
-//// 11 is Epcos B57560G104F 100K
-//// 12 is Epcos B57861S104F40 100K 155C for bed only
-////
-////    1k ohm pullup tables - This is not normal, you would have to have
-//changed out your 4.7k for 1k
-////                          (but gives greater accuracy and more stable PID)
-//// 51 is 100k thermistor - EPCOS (1k pullup)
-//// 52 is 200k thermistor - ATC Semitec 204GT-2 (1k pullup)
-//// 55 is 100k thermistor - ATC Semitec 104GT-2 (Used in ParCan) (1k pullup)
+// Temperature sensor settings:
+// -2 is thermocouple with MAX6675 (only for sensor 0)
+// -1 is thermocouple with AD595
+// 0 is not used
+// 1 is 100k thermistor - best choice for EPCOS 100k (4.7k pullup)
+// 2 is 200k thermistor - ATC Semitec 204GT-2 (4.7k pullup)
+// 3 is mendel-parts thermistor (4.7k pullup)
+// 4 is 10k thermistor !! do not use it for a hotend. It gives bad resolution at high temp. !!
+// 5 is 100K thermistor - ATC Semitec 104GT-2 (Used in ParCan) (4.7k pullup)
+// 6 is 100k EPCOS - Not as accurate as table 1 (created using a fluke thermocouple) (4.7k pullup)
+// 7 is 100k Honeywell thermistor 135-104LAG-J01 (4.7k pullup)
+// 71 is 100k Honeywell thermistor 135-104LAF-J01 (4.7k pullup)
+// 8 is 100k 0603 SMD Vishay NTCS0603E3104FXT (4.7k pullup)
+// 9 is 100k GE Sensing AL03006-58.2K-97-G1 (4.7k pullup)
+// 10 is 100k RS thermistor 198-961 (4.7k pullup)
+// 60 is 100k Maker's Tool Works Kapton Bed Thermister
+// 11 is Epcos B57560G104F 100K
+// 12 is Epcos B57861S104F40 100K 155C for bed only
+//
+//    1k ohm pullup tables - This is not normal, you would have to have changed out your 4.7k for 1k
+//                          (but gives greater accuracy and more stable PID)
+// 51 is 100k thermistor - EPCOS (1k pullup)
+// 52 is 200k thermistor - ATC Semitec 204GT-2 (1k pullup)
+// 55 is 100k thermistor - ATC Semitec 104GT-2 (Used in ParCan) (1k pullup)
 //
 
 #define TEMP_SENSOR_0 11
@@ -354,7 +351,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 #define Z_MAX_LENGTH (Z_MAX_POS - Z_MIN_POS)
 
 // The position of the homing switches
-//#define MANUAL_HOME_POSITIONS  // If defined, MANUAL_*_HOME_POS below will be used
+#define MANUAL_HOME_POSITIONS  // If defined, MANUAL_*_HOME_POS below will be used
 //#define BED_CENTER_AT_0_0  // If defined, the center of the bed is at (X=0, Y=0)
 
 //Manual homing switch locations:
