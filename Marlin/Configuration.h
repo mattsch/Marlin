@@ -355,13 +355,13 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 
 // The position of the homing switches
 #define MANUAL_HOME_POSITIONS  // If defined, MANUAL_*_HOME_POS below will be used
-// #define BED_CENTER_AT_0_0  // If defined, the center of the bed is at (X=0, Y=0)
+//#define BED_CENTER_AT_0_0  // If defined, the center of the bed is at (X=0, Y=0)
 
 //Manual homing switch locations:
 // For deltabots this means top and center of the cartesian print volume.
 #define MANUAL_X_HOME_POS (X_MIN_POS - 1)
 #define MANUAL_Y_HOME_POS (Y_MIN_POS - 1)
-#define MANUAL_Z_HOME_POS (203.0)
+#define MANUAL_Z_HOME_POS (203.5)
 //#define MANUAL_Z_HOME_POS 402 // For delta: Distance between nozzle and print surface after homing.
 
 //// MOVEMENT SETTINGS
@@ -562,7 +562,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 // Use software PWM to drive the fan, as for the heaters. This uses a very low frequency
 // which is not ass annoying as with the hardware PWM. On the other hand, if this frequency
 // is too low, you should also increment SOFT_PWM_SCALE.
-//#define FAN_SOFT_PWM
+#define FAN_SOFT_PWM
 
 // Incrementing this by 1 will double the software PWM frequency,
 // affecting heaters, and the fan if FAN_SOFT_PWM is enabled.
