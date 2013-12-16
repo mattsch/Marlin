@@ -161,7 +161,7 @@
   #define EXTRUDERS 1
 #endif
 
-#ifdef Z_DUAL_STEPPER_DRIVERS && Y_DUAL_STEPPER_DRIVERS
+#if defined (Z_DUAL_STEPPER_DRIVERS) && defined (Y_DUAL_STEPPER_DRIVERS)
   #error "You cannot have dual drivers for both Y and Z"
 #endif
 
@@ -365,6 +365,9 @@ const unsigned int dropsegments=5; //everything with less than this number of st
   #define PS_ON_ASLEEP LOW
 #endif
 
+// Control heater 0 and heater 1 in parallel.
+//#define HEATERS_PARALLEL
+
 //===========================================================================
 //=============================Buffers           ============================
 //===========================================================================
@@ -416,6 +419,10 @@ const unsigned int dropsegments=5; //everything with less than this number of st
 //===========================================================================
 #if EXTRUDERS > 1 && defined TEMP_SENSOR_1_AS_REDUNDANT
   #error "You cannot use TEMP_SENSOR_1_AS_REDUNDANT if EXTRUDERS > 1"
+#endif
+
+#if EXTRUDERS > 1 && defined HEATERS_PARALLEL
+  #error "You cannot use HEATERS_PARALLEL if EXTRUDERS > 1"
 #endif
 
 #if TEMP_SENSOR_0 > 0

@@ -39,6 +39,7 @@
 // 11 = Gen7 v1.1, v1.2 = 11
 // 12 = Gen7 v1.3
 // 13 = Gen7 v1.4
+// 2  = Cheaptronic v1.0
 // 20 = Sethi 3D_1 
 // 3  = MEGA/RAMPS up to 1.2 = 3
 // 33 = RAMPS 1.3 / 1.4 (Power outputs: Extruder, Fan, Bed)
@@ -80,7 +81,7 @@
 
 // Define this to set a unique identifier for this printer, (Used by some programs to differentiate between machines)
 // You can use an online service to generate a random UUID. (eg http://www.uuidgenerator.net/version4)
-// #define MACHINE_UUID "00000000-0000-0000-0000-000000000000"
+#define MACHINE_UUID "0101a3f4-6188-41c0-a796-f59ae60db6e8"
 
 // This defines the number of extruders
 #define EXTRUDERS 1
@@ -315,6 +316,17 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 #define min_software_endstops true // If true, axis won't move to coordinates less than HOME_POS.
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
 
+// Travel limits after homing
+#define X_MAX_POS 100
+#define X_MIN_POS -100
+#define Y_MAX_POS 100
+#define Y_MIN_POS -100
+#define Z_MAX_POS (Z_HOME_POS - 0.1)
+#define Z_MIN_POS 0
+
+#define X_MAX_LENGTH (X_MAX_POS - X_MIN_POS)
+#define Y_MAX_LENGTH (Y_MAX_POS - Y_MIN_POS)
+#define Z_MAX_LENGTH (Z_MAX_POS - Z_MIN_POS)
 //============================= Bed Auto Leveling ===========================
 
 //#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
@@ -346,20 +358,27 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
   // You MUST HAVE the SERVO_ENDSTOPS defined to use here a value higher than zero otherwise your code will not compile.
 
 //  #define PROBE_SERVO_DEACTIVATION_DELAY 300  
+
+
+//If you have enabled the Bed Auto Levelling and are using the same Z Probe for Z Homing, 
+//it is highly recommended you let this Z_SAFE_HOMING enabled!!!
+
+  #define Z_SAFE_HOMING   // This feature is meant to avoid Z homing with probe outside the bed area. 
+                          // When defined, it will:
+                          // - Allow Z homing only after X and Y homing AND stepper drivers still enabled
+                          // - If stepper drivers timeout, it will need X and Y homing again before Z homing
+                          // - Position the probe in a defined XY point before Z Homing when homing all axis (G28)
+                          // - Block Z homing only when the probe is outside bed area.
+  
+  #ifdef Z_SAFE_HOMING
+    
+    #define Z_SAFE_HOMING_X_POINT (X_MAX_LENGTH/2)    // X point for Z homing when homing all axis (G28)
+    #define Z_SAFE_HOMING_Y_POINT (Y_MAX_LENGTH/2)    // Y point for Z homing when homing all axis (G28)
+    
+  #endif
   
 #endif
 
-// Travel limits after homing
-#define X_MAX_POS 100
-#define X_MIN_POS -100
-#define Y_MAX_POS 100
-#define Y_MIN_POS -100
-#define Z_MAX_POS (Z_HOME_POS - 0.1)
-#define Z_MIN_POS 0
-
-#define X_MAX_LENGTH (X_MAX_POS - X_MIN_POS)
-#define Y_MAX_LENGTH (Y_MAX_POS - Y_MIN_POS)
-#define Z_MAX_LENGTH (Z_MAX_POS - Z_MIN_POS)
 
 // The position of the homing switches
 #define MANUAL_HOME_POSITIONS  // If defined, MANUAL_*_HOME_POS below will be used
@@ -369,7 +388,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 // For deltabots this means top and center of the cartesian print volume.
 #define MANUAL_X_HOME_POS (X_MIN_POS - 1)
 #define MANUAL_Y_HOME_POS (Y_MIN_POS - 1)
-#define MANUAL_Z_HOME_POS (204.00)
+#define MANUAL_Z_HOME_POS (203.75)
 //#define MANUAL_Z_HOME_POS 402 // For delta: Distance between nozzle and print surface after homing.
 
 //// MOVEMENT SETTINGS
@@ -378,7 +397,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 
 // default settings
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,200*16/1,571.33}  // Mendel90 with Wades and Stoffel15 bolt 
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,200*16/1,571.31}  // Mendel90 with Wades and Stoffel15 bolt 
 #define DEFAULT_MAX_FEEDRATE          {400, 400, 4, 30}    // (mm/sec)
 #define DEFAULT_MAX_ACCELERATION      {2000,2000,150,5000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 
