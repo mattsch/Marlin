@@ -388,7 +388,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 // For deltabots this means top and center of the cartesian print volume.
 #define MANUAL_X_HOME_POS (X_MIN_POS - 1)
 #define MANUAL_Y_HOME_POS (Y_MIN_POS - 1)
-#define MANUAL_Z_HOME_POS (203.68)
+#define MANUAL_Z_HOME_POS (203.70)
 //#define MANUAL_Z_HOME_POS 402 // For delta: Distance between nozzle and print surface after homing.
 
 //// MOVEMENT SETTINGS
@@ -397,7 +397,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 
 // default settings
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,200*16/1,571.31}  // Mendel90 with Wades and Stoffel15 bolt 
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,200*16/1,563.99}  // Mendel90 with Wades and Stoffel15 bolt 
 #define DEFAULT_MAX_FEEDRATE          {400, 400, 4, 30}    // (mm/sec)
 #define DEFAULT_MAX_ACCELERATION      {2000,2000,150,5000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 
@@ -411,9 +411,9 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 // #define EXTRUDER_OFFSET_Y {0.0, 5.00}  // (in mm) for each extruder, offset of the hotend on the Y axis
 
 // The speed change that does not require acceleration (i.e. the software might assume it can be done instantaneously)
-#define DEFAULT_XYJERK                10.0    // (mm/sec)
-#define DEFAULT_ZJERK                 0.2     // (mm/sec)
-#define DEFAULT_EJERK                 10.0    // (mm/sec)
+#define DEFAULT_XYJERK                20.0    // (mm/sec)
+#define DEFAULT_ZJERK                 1.0     // (mm/sec)
+#define DEFAULT_EJERK                 5.0    // (mm/sec)
 
 //===========================================================================
 //=============================Additional Features===========================
