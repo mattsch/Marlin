@@ -709,7 +709,7 @@ const short temptable_20[][2] PROGMEM = {
 #endif
 
 #if (THERMISTORHEATER_0 == 11) || (THERMISTORHEATER_1 == 11) || (THERMISTORHEATER_2 == 11) || (THERMISTORBED == 11) // 100k Epcos thermistor from MakerFarm
-const short temptable_6[][2] PROGMEM = {
+const short temptable_11[][2] PROGMEM = {
    {47*OVERSAMPLENR, 250},
    {51*OVERSAMPLENR, 245},
    {55*OVERSAMPLENR, 240},
