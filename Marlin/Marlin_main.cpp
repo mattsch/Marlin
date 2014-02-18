@@ -231,10 +231,13 @@ int EtoPPressure=0;
 #endif
 
 #ifdef FWRETRACT
-  bool autoretract_enabled=true;
+  bool autoretract_enabled=false;
   bool retracted=false;
-  float retract_length=3, retract_feedrate=17*60, retract_zlift=0.8;
-  float retract_recover_length=0, retract_recover_feedrate=8*60;
+  float retract_length = RETRACT_LENGTH;
+  float retract_feedrate = RETRACT_FEEDRATE;
+  float retract_zlift = RETRACT_ZLIFT;
+  float retract_recover_length = RETRACT_RECOVER_LENGTH;
+  float retract_recover_feedrate = RETRACT_RECOVER_FEEDRATE;
 #endif
 
 #ifdef ULTIPANEL
@@ -978,6 +981,28 @@ static void retract_z_probe() {
     #endif
 }
 
+/// Probe bed height at position (x,y), returns the measured z value
+static float probe_pt(float x, float y, float z_before) {
+  // move to right place
+  do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], z_before);
+  do_blocking_move_to(x - X_PROBE_OFFSET_FROM_EXTRUDER, y - Y_PROBE_OFFSET_FROM_EXTRUDER, current_position[Z_AXIS]);
+
+  engage_z_probe();   // Engage Z Servo endstop if available
+  run_z_probe();
+  float measured_z = current_position[Z_AXIS];
+  retract_z_probe();
+
+  SERIAL_PROTOCOLPGM(MSG_BED);
+  SERIAL_PROTOCOLPGM(" x: ");
+  SERIAL_PROTOCOL(x);
+  SERIAL_PROTOCOLPGM(" y: ");
+  SERIAL_PROTOCOL(y);
+  SERIAL_PROTOCOLPGM(" z: ");
+  SERIAL_PROTOCOL(measured_z);
+  SERIAL_PROTOCOLPGM("\n");
+  return measured_z;
+}
+
 #endif // #ifdef ENABLE_AUTO_BED_LEVELING
 
 static void homeaxis(int axis) {
@@ -1058,6 +1083,46 @@ static void homeaxis(int axis) {
   }
 }
 #define HOMEAXIS(LETTER) homeaxis(LETTER##_AXIS)
+void refresh_cmd_timeout(void)
+{
+  previous_millis_cmd = millis();
+}
+
+#ifdef FWRETRACT
+  void retract(bool retracting) {
+    if(retracting && !retracted) {
+      destination[X_AXIS]=current_position[X_AXIS];
+      destination[Y_AXIS]=current_position[Y_AXIS];
+      destination[Z_AXIS]=current_position[Z_AXIS];
+      destination[E_AXIS]=current_position[E_AXIS];
+      current_position[E_AXIS]+=retract_length/volumetric_multiplier[active_extruder];
+      plan_set_e_position(current_position[E_AXIS]);
+      float oldFeedrate = feedrate;
+      feedrate=retract_feedrate;
+      retracted=true;
+      prepare_move();
+      current_position[Z_AXIS]-=retract_zlift;
+      plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
+      prepare_move();
+      feedrate = oldFeedrate;
+    } else if(!retracting && retracted) {
+      destination[X_AXIS]=current_position[X_AXIS];
+      destination[Y_AXIS]=current_position[Y_AXIS];
+      destination[Z_AXIS]=current_position[Z_AXIS];
+      destination[E_AXIS]=current_position[E_AXIS];
+      current_position[Z_AXIS]+=retract_zlift;
+      plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
+      //prepare_move();
+      current_position[E_AXIS]-=(retract_length+retract_recover_length)/volumetric_multiplier[active_extruder]; 
+      plan_set_e_position(current_position[E_AXIS]);
+      float oldFeedrate = feedrate;
+      feedrate=retract_recover_feedrate;
+      retracted=false;
+      prepare_move();
+      feedrate = oldFeedrate;
+    }
+  } //retract
+#endif //FWRETRACT
 
 void process_commands()
 {
@@ -1074,6 +1139,18 @@ void process_commands()
     case 1: // G1
       if(Stopped == false) {
         get_coordinates(); // For X Y Z E F
+          #ifdef FWRETRACT
+            if(autoretract_enabled)
+            if( !(code_seen(X_AXIS) || code_seen(Y_AXIS) || code_seen(Z_AXIS)) && code_seen(E_AXIS)) {
+              float echange=destination[E_AXIS]-current_position[E_AXIS];
+              if((echange<-MIN_RETRACT && !retracted) || (echange>MIN_RETRACT && retracted)) { //move appears to be an attempt to attract or recover
+                  current_position[E_AXIS] = destination[E_AXIS]; //hide the slicer-generated retract/recover from calculations
+                  plan_set_e_position(current_position[E_AXIS]); //AND from the planner
+                  retract(!retracted);
+                  return;
+              }
+            }
+          #endif //FWRETRACT
         prepare_move();
         //ClearToSend();
         return;
@@ -1108,39 +1185,10 @@ void process_commands()
       break;
       #ifdef FWRETRACT
       case 10: // G10 retract
-      if(!retracted)
-      {
-        destination[X_AXIS]=current_position[X_AXIS];
-        destination[Y_AXIS]=current_position[Y_AXIS];
-        destination[Z_AXIS]=current_position[Z_AXIS];
-        current_position[Z_AXIS]-=retract_zlift;
-        destination[E_AXIS]=current_position[E_AXIS];
-        current_position[E_AXIS]+=retract_length/volumetric_multiplier[active_extruder];
-        plan_set_e_position(current_position[E_AXIS]);
-        float oldFeedrate = feedrate;
-        feedrate=retract_feedrate;
-        retracted=true;
-        prepare_move();
-        feedrate = oldFeedrate;
-      }
-
+        retract(true);
       break;
       case 11: // G11 retract_recover
-      if(retracted)
-      {
-        destination[X_AXIS]=current_position[X_AXIS];
-        destination[Y_AXIS]=current_position[Y_AXIS];
-        destination[Z_AXIS]=current_position[Z_AXIS];
-        current_position[Z_AXIS]+=retract_zlift;
-        destination[E_AXIS]=current_position[E_AXIS];
-        current_position[E_AXIS]-=(retract_length+retract_recover_length)/volumetric_multiplier[active_extruder]; 
-        plan_set_e_position(current_position[E_AXIS]);
-        float oldFeedrate = feedrate;
-        feedrate=retract_recover_feedrate;
-        retracted=false;
-        prepare_move();
-        feedrate = oldFeedrate;
-      }
+        retract(false);
       break;
       #endif //FWRETRACT
     case 28: //G28 Home all Axis one at a time
@@ -1415,31 +1463,20 @@ void process_commands()
 
               for (int xCount=0; xCount < ACCURATE_BED_LEVELING_POINTS; xCount++)
               {
+                float z_before;
                 if (probePointCounter == 0)
                 {
                   // raise before probing
-                  do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], Z_RAISE_BEFORE_PROBING);
+                  z_before = Z_RAISE_BEFORE_PROBING;
                 } else
                 {
                   // raise extruder
-                  do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS] + Z_RAISE_BETWEEN_PROBINGS);
+                  z_before = current_position[Z_AXIS] + Z_RAISE_BETWEEN_PROBINGS;
                 }
 
+                float measured_z = probe_pt(xProbe, yProbe, z_before);
 
-                do_blocking_move_to(xProbe - X_PROBE_OFFSET_FROM_EXTRUDER, yProbe - Y_PROBE_OFFSET_FROM_EXTRUDER, current_position[Z_AXIS]);
-
-                engage_z_probe();   // Engage Z Servo endstop if available
-                run_z_probe();
-                eqnBVector[probePointCounter] = current_position[Z_AXIS];
-                retract_z_probe();
-
-                SERIAL_PROTOCOLPGM("Bed x: ");
-                SERIAL_PROTOCOL(xProbe);
-                SERIAL_PROTOCOLPGM(" y: ");
-                SERIAL_PROTOCOL(yProbe);
-                SERIAL_PROTOCOLPGM(" z: ");
-                SERIAL_PROTOCOL(current_position[Z_AXIS]);
-                SERIAL_PROTOCOLPGM("\n");
+                eqnBVector[probePointCounter] = measured_z;
 
                 eqnAMatrix[probePointCounter + 0*ACCURATE_BED_LEVELING_POINTS*ACCURATE_BED_LEVELING_POINTS] = xProbe;
                 eqnAMatrix[probePointCounter + 1*ACCURATE_BED_LEVELING_POINTS*ACCURATE_BED_LEVELING_POINTS] = yProbe;
@@ -1469,56 +1506,13 @@ void process_commands()
 
 
             // prob 1
-            do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], Z_RAISE_BEFORE_PROBING);
-            do_blocking_move_to(LEFT_PROBE_BED_POSITION - X_PROBE_OFFSET_FROM_EXTRUDER, BACK_PROBE_BED_POSITION - Y_PROBE_OFFSET_FROM_EXTRUDER, current_position[Z_AXIS]);
-
-            engage_z_probe();   // Engage Z Servo endstop if available
-            run_z_probe();
-            float z_at_xLeft_yBack = current_position[Z_AXIS];
-            retract_z_probe();
-
-            SERIAL_PROTOCOLPGM("Bed x: ");
-            SERIAL_PROTOCOL(LEFT_PROBE_BED_POSITION);
-            SERIAL_PROTOCOLPGM(" y: ");
-            SERIAL_PROTOCOL(BACK_PROBE_BED_POSITION);
-            SERIAL_PROTOCOLPGM(" z: ");
-            SERIAL_PROTOCOL(current_position[Z_AXIS]);
-            SERIAL_PROTOCOLPGM("\n");
+            float z_at_xLeft_yBack = probe_pt(LEFT_PROBE_BED_POSITION, BACK_PROBE_BED_POSITION, Z_RAISE_BEFORE_PROBING);
 
             // prob 2
-            do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS] + Z_RAISE_BETWEEN_PROBINGS);
-            do_blocking_move_to(LEFT_PROBE_BED_POSITION - X_PROBE_OFFSET_FROM_EXTRUDER, FRONT_PROBE_BED_POSITION - Y_PROBE_OFFSET_FROM_EXTRUDER, current_position[Z_AXIS]);
-
-            engage_z_probe();   // Engage Z Servo endstop if available
-            run_z_probe();
-            float z_at_xLeft_yFront = current_position[Z_AXIS];
-            retract_z_probe();
-
-            SERIAL_PROTOCOLPGM("Bed x: ");
-            SERIAL_PROTOCOL(LEFT_PROBE_BED_POSITION);
-            SERIAL_PROTOCOLPGM(" y: ");
-            SERIAL_PROTOCOL(FRONT_PROBE_BED_POSITION);
-            SERIAL_PROTOCOLPGM(" z: ");
-            SERIAL_PROTOCOL(current_position[Z_AXIS]);
-            SERIAL_PROTOCOLPGM("\n");
+            float z_at_xLeft_yFront = probe_pt(LEFT_PROBE_BED_POSITION, FRONT_PROBE_BED_POSITION, current_position[Z_AXIS] + Z_RAISE_BETWEEN_PROBINGS);
 
             // prob 3
-            do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS] + Z_RAISE_BETWEEN_PROBINGS);
-            // the current position will be updated by the blocking move so the head will not lower on this next call.
-            do_blocking_move_to(RIGHT_PROBE_BED_POSITION - X_PROBE_OFFSET_FROM_EXTRUDER, FRONT_PROBE_BED_POSITION - Y_PROBE_OFFSET_FROM_EXTRUDER, current_position[Z_AXIS]);
-
-            engage_z_probe();   // Engage Z Servo endstop if available
-            run_z_probe();
-            float z_at_xRight_yFront = current_position[Z_AXIS];
-            retract_z_probe(); // Retract Z Servo endstop if available
-
-            SERIAL_PROTOCOLPGM("Bed x: ");
-            SERIAL_PROTOCOL(RIGHT_PROBE_BED_POSITION);
-            SERIAL_PROTOCOLPGM(" y: ");
-            SERIAL_PROTOCOL(FRONT_PROBE_BED_POSITION);
-            SERIAL_PROTOCOLPGM(" z: ");
-            SERIAL_PROTOCOL(current_position[Z_AXIS]);
-            SERIAL_PROTOCOLPGM("\n");
+            float z_at_xRight_yFront = probe_pt(RIGHT_PROBE_BED_POSITION, FRONT_PROBE_BED_POSITION, current_position[Z_AXIS] + Z_RAISE_BETWEEN_PROBINGS);
 
             clean_up_after_endstop_move();
 
@@ -1553,7 +1547,8 @@ void process_commands()
             feedrate = homing_feedrate[Z_AXIS];
 
             run_z_probe();
-            SERIAL_PROTOCOLPGM("Bed Position X: ");
+            SERIAL_PROTOCOLPGM(MSG_BED);
+            SERIAL_PROTOCOLPGM(" X: ");
             SERIAL_PROTOCOL(current_position[X_AXIS]);
             SERIAL_PROTOCOLPGM(" Y: ");
             SERIAL_PROTOCOL(current_position[Y_AXIS]);
@@ -2155,18 +2150,18 @@ void process_commands()
     case 114: // M114
       SERIAL_PROTOCOLPGM("X:");
       SERIAL_PROTOCOL(current_position[X_AXIS]);
-      SERIAL_PROTOCOLPGM("Y:");
+      SERIAL_PROTOCOLPGM(" Y:");
       SERIAL_PROTOCOL(current_position[Y_AXIS]);
-      SERIAL_PROTOCOLPGM("Z:");
+      SERIAL_PROTOCOLPGM(" Z:");
       SERIAL_PROTOCOL(current_position[Z_AXIS]);
-      SERIAL_PROTOCOLPGM("E:");
+      SERIAL_PROTOCOLPGM(" E:");
       SERIAL_PROTOCOL(current_position[E_AXIS]);
 
       SERIAL_PROTOCOLPGM(MSG_COUNT_X);
       SERIAL_PROTOCOL(float(st_get_position(X_AXIS))/axis_steps_per_unit[X_AXIS]);
-      SERIAL_PROTOCOLPGM("Y:");
+      SERIAL_PROTOCOLPGM(" Y:");
       SERIAL_PROTOCOL(float(st_get_position(Y_AXIS))/axis_steps_per_unit[Y_AXIS]);
-      SERIAL_PROTOCOLPGM("Z:");
+      SERIAL_PROTOCOLPGM(" Z:");
       SERIAL_PROTOCOL(float(st_get_position(Z_AXIS))/axis_steps_per_unit[Z_AXIS]);
 
       SERIAL_PROTOCOLLN("");
@@ -3049,42 +3044,6 @@ void get_coordinates()
     next_feedrate = code_value();
     if(next_feedrate > 0.0) feedrate = next_feedrate;
   }
-  #ifdef FWRETRACT
-  if(autoretract_enabled)
-  if( !(seen[X_AXIS] || seen[Y_AXIS] || seen[Z_AXIS]) && seen[E_AXIS])
-  {
-    float echange=destination[E_AXIS]-current_position[E_AXIS];
-    if(echange<-MIN_RETRACT) //retract
-    {
-      if(!retracted)
-      {
-
-      destination[Z_AXIS]+=retract_zlift; //not sure why chaninging current_position negatively does not work.
-      //if slicer retracted by echange=-1mm and you want to retract 3mm, corrrectede=-2mm additionally
-      float correctede=-echange-retract_length;
-      //to generate the additional steps, not the destination is changed, but inversely the current position
-      current_position[E_AXIS]+=-correctede;
-      feedrate=retract_feedrate;
-      retracted=true;
-      }
-
-    }
-    else
-      if(echange>MIN_RETRACT) //retract_recover
-    {
-      if(retracted)
-      {
-      //current_position[Z_AXIS]+=-retract_zlift;
-      //if slicer retracted_recovered by echange=+1mm and you want to retract_recover 3mm, corrrectede=2mm additionally
-      float correctede=-echange+1*retract_length+retract_recover_length; //total unretract=retract_length+retract_recover_length[surplus]
-      current_position[E_AXIS]+=correctede; //to generate the additional steps, not the destination is changed, but inversely the current position
-      feedrate=retract_recover_feedrate;
-      retracted=false;
-      }
-    }
-
-  }
-  #endif //FWRETRACT
 }
 
 void get_arc_coordinates()
