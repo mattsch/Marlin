@@ -8,12 +8,8 @@ Please do not use this code in products (3D printers, CNC etc) that are closed s
 
 Branch Information
 ==================
-This is my own branch for nophead's dibond Mendel90 kit with the Panelolu2 LCD.
+This is my own branch for nophead's dibond Mendel90 kit without the Panelolu2 LCD.
 It has the following changes:
-* Panelolu2 enabled, WILL HANG IF LCD IS NOT ATTACHED
-  - Needs recent checkout of
-    [LiquidTWI2](https://github.com/lincomatic/LiquidTWI2) libraries into the
-    local sketchbook folder
 * Includes nophead's Melzi data in ArduinoAddons/Arduino\_1.x.x/Melzi which
   needs to be copied into sketchbook/hardware/ for proper control
 * Bed PID control enabled
