@@ -6,6 +6,23 @@ Please do not use this code in products (3D printers, CNC etc) that are closed s
 
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=ErikZalm&url=https://github.com/ErikZalm/Marlin&title=Marlin&language=&tags=github&category=software)
 
+Branch Information
+==================
+This is my own branch for nophead's dibond Mendel90 kit with the Panelolu2 LCD.
+It has the following changes:
+* Panelolu2 enabled, WILL HANG IF LCD IS NOT ATTACHED
+  - Needs recent checkout of
+    [LiquidTWI2](https://github.com/lincomatic/LiquidTWI2) libraries into the
+    local sketchbook folder
+* Includes nophead's Melzi data in ArduinoAddons/Arduino\_1.x.x/Melzi which
+  needs to be copied into sketchbook/hardware/ for proper control
+* Bed PID control enabled
+* Firmware retract enabled
+* EEPROM enabled
+* Fan soft/fast PWM enabled
+* Patch for display of negative x/y values
+* My own esteps, Z\_HOME\_POS, etc.
+
 Quick Information
 ===================
 This RepRap firmware is a mashup between <a href="https://github.com/kliment/Sprinter">Sprinter</a>, <a href="https://github.com/simen/grbl/tree">grbl</a> and many original parts.
