@@ -405,7 +405,7 @@ const unsigned int dropsegments=5; //everything with less than this number of st
   #define RETRACT_FEEDRATE 10*60         //default feedrate for retracting
   #define RETRACT_ZLIFT 0                //default retract Z-lift
   #define RETRACT_RECOVER_LENGTH 0       //default additional recover length (mm, added to retract length when recovering)
-  #define RETRACT_RECOVER_FEEDRATE 10*60  //default feedrate for recovering from retraction
+  #define RETRACT_RECOVER_FEEDRATE 8*60  //default feedrate for recovering from retraction
 #endif
 
 //adds support for experimental filament exchange support M600; requires display
