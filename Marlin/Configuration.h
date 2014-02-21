@@ -422,7 +422,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 
 // default settings
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,200*16/1,563.99}  // Mendel90 with Wades and Stoffel15 bolt 
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,200*16/1,501.95}  // Mendel90 with Wades and Stoffel15 bolt 
 #define DEFAULT_MAX_FEEDRATE          {400, 400, 4, 30}    // (mm/sec)
 #define DEFAULT_MAX_ACCELERATION      {2000,2000,150,5000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 
