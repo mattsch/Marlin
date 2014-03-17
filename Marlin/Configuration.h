@@ -189,9 +189,9 @@
 
 // If you are using a preconfigured hotend then you can use one of the value sets by uncommenting it
 // J-Head Mk V-B
-    #define  DEFAULT_Kp 25.05
-    #define  DEFAULT_Ki 2.30
-    #define  DEFAULT_Kd 68.15
+    #define  DEFAULT_Kp 42.84
+    #define  DEFAULT_Ki 4.88
+    #define  DEFAULT_Kd 94.05
 
 // Ultimaker
 //    #define  DEFAULT_Kp 22.2
