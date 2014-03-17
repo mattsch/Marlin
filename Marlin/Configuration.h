@@ -189,9 +189,9 @@
 
 // If you are using a preconfigured hotend then you can use one of the value sets by uncommenting it
 // J-Head Mk V-B
-    #define  DEFAULT_Kp 25.05
-    #define  DEFAULT_Ki 2.30
-    #define  DEFAULT_Kd 68.15
+    #define  DEFAULT_Kp 42.84
+    #define  DEFAULT_Ki 4.88
+    #define  DEFAULT_Kd 94.05
 
 // Ultimaker
 //    #define  DEFAULT_Kp 22.2
@@ -442,7 +442,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 // For deltabots this means top and center of the Cartesian print volume.
 #define MANUAL_X_HOME_POS (X_MIN_POS - 1)
 #define MANUAL_Y_HOME_POS (Y_MIN_POS - 1)
-#define MANUAL_Z_HOME_POS (203.65)
+#define MANUAL_Z_HOME_POS (203.87)
 //#define MANUAL_Z_HOME_POS 402 // For delta: Distance between nozzle and print surface after homing.
 
 //// MOVEMENT SETTINGS
