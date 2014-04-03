@@ -2268,8 +2268,6 @@ void process_commands()
             SERIAL_ECHO_START;
             SERIAL_ECHO(MSG_M200_INVALID_EXTRUDER);
           }
-          SERIAL_ECHOLN(tmp_extruder);
-          break;
         }
         volumetric_multiplier[tmp_extruder] = 1 / area;
       }
@@ -3051,7 +3049,16 @@ void process_commands()
         // Set the new active extruder and position
         active_extruder = tmp_extruder;
       #endif //else DUAL_X_CARRIAGE
+#ifdef DELTA 
+
+  calculate_delta(current_position); // change cartesian kinematic  to  delta kinematic;
+   //sent position to plan_set_position();
+  plan_set_position(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS],current_position[E_AXIS]);
+            
+#else
         plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
+
+#endif
         // Move to the old position if 'F' was in the parameters
         if(make_move && Stopped == false) {
            prepare_move();
