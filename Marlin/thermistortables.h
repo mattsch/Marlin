@@ -694,7 +694,7 @@ const short temptable_20[][2] PROGMEM = {
 #endif
 
 #if (THERMISTORHEATER_0 == 511) || (THERMISTORHEATER_1 == 511) || (THERMISTORHEATER_2 == 511) || (THERMISTORBED == 511) // Epcos B57560G104F 100K on JHeadMKV
-const short temptable_11[][2] PROGMEM = {
+const short temptable_511[][2] PROGMEM = {
     {     344,       300     }, // r=   101 adc=21.47
     {     369,       295     }, // r=   108 adc=23.08
     {     397,       290     }, // r=   117 adc=24.83
@@ -760,7 +760,7 @@ const short temptable_11[][2] PROGMEM = {
 #endif
 
 #if (THERMISTORHEATER_0 == 512) || (THERMISTORHEATER_1 == 512) || (THERMISTORHEATER_2 == 512) || (THERMISTORBED == 512) // Epcos B57861S 104F 40 100K on Mendel90 bed, max temp 115
-const short temptable_12[][2] PROGMEM = {
+const short temptable_512[][2] PROGMEM = {
     {     982,       200     }, // r=   300 adc=61.38
     {    1091,       195     }, // r=   336 adc=68.19
     {    1214,       190     }, // r=   376 adc=75.84

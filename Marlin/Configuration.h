@@ -121,8 +121,8 @@
 // 11 is 100k beta 3950 1% thermistor (4.7k pullup)
 // 20 is the PT100 circuit found in the Ultimainboard V2.x
 // 60 is 100k Maker's Tool Works Kapton Bed Thermistor beta=3950
-// 11 is Epcos B57560G104F 100K
-// 12 is Epcos B57861S104F40 100K 155C for bed only
+// 511 is Epcos B57560G104F 100K (ships with nophead kit)
+// 512 is Epcos B57861S104F40 100K 155C for bed only (ships with nophead kit)
 //
 //    1k ohm pullup tables - This is not normal, you would have to have changed out your 4.7k for 1k
 //                          (but gives greater accuracy and more stable PID)
@@ -135,10 +135,10 @@
 // 147 is Pt100 with 4k7 pullup
 // 110 is Pt100 with 1k pullup (non standard)
 
-#define TEMP_SENSOR_0 11
+#define TEMP_SENSOR_0 511
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
-#define TEMP_SENSOR_BED 12
+#define TEMP_SENSOR_BED 512
 
 // This makes temp sensor 1 a redundant sensor for sensor 0. If the temperatures difference between these sensors is to high the print will be aborted.
 //#define TEMP_SENSOR_1_AS_REDUNDANT
