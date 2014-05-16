@@ -16,6 +16,8 @@ It has the following changes:
   - Needs recent checkout of
     [LiquidTWI2](https://github.com/lincomatic/LiquidTWI2) libraries into the
     local sketchbook folder
+  - Merged upstream pull request 819, but have not tested.  Caveat above MAY not
+    apply any longer.
 * Includes nophead's Melzi data in ArduinoAddons/Arduino\_1.x.x/Melzi which
   needs to be copied into sketchbook/hardware/ for proper control
 * Bed PID control enabled
