@@ -112,7 +112,7 @@
 #define DELTA_DIAGONAL_ROD 205.00 // mm
 
 // Horizontal offset from middle of printer to smooth rod center.
-#define DELTA_SMOOTH_ROD_OFFSET 163.30 // mm
+#define DELTA_SMOOTH_ROD_OFFSET 164 // mm
 
 // Horizontal offset of the universal joints on the end effector.
 #define DELTA_EFFECTOR_OFFSET 33.0 // mm
@@ -354,14 +354,14 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define Y_HOME_DIR 1
 #define Z_HOME_DIR 1
 
-#define min_software_endstops true // If true, axis won't move to coordinates less than HOME_POS.
+#define min_software_endstops false // If true, axis won't move to coordinates less than HOME_POS.
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
 
 // Travel limits after homing
-#define X_MAX_POS 90
-#define X_MIN_POS -90
-#define Y_MAX_POS 90
-#define Y_MIN_POS -90
+#define X_MAX_POS 80
+#define X_MIN_POS -80
+#define Y_MAX_POS 80
+#define Y_MIN_POS -80
 #define Z_MAX_POS MANUAL_Z_HOME_POS
 #define Z_MIN_POS 0
 
@@ -468,7 +468,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define MANUAL_X_HOME_POS 0
 #define MANUAL_Y_HOME_POS 0
 //#define MANUAL_Z_HOME_POS 0
-#define MANUAL_Z_HOME_POS 187.50 // For delta: Distance between nozzle and print surface after homing.
+#define MANUAL_Z_HOME_POS 182.90 // For delta: Distance between nozzle and print surface after homing.
 
 //// MOVEMENT SETTINGS
 #define NUM_AXIS 4 // The axis order in all axis related arrays is X, Y, Z, E
@@ -476,7 +476,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
 // default settings
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {55.5, 55.5, 55.5, 673.65}  // defaults from RichRap, esteps are mine
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {55.56, 55.56, 55.56, 673.65}  // defaults from RichRap, esteps are mine
 #define DEFAULT_MAX_FEEDRATE          {500, 500, 500, 25}    // (mm/sec)
 #define DEFAULT_MAX_ACCELERATION      {500, 500, 500, 380}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for Skeinforge 40+, for older versions raise them a lot.
 
