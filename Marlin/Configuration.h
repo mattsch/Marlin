@@ -126,9 +126,7 @@
 // Horizontal offset of the universal joints on the end effector.
 #define DELTA_EFFECTOR_OFFSET 19.9 // mm
 
-// Horizontal offset of the universal joints on the carriages. This is
-// measured from the edge of the M6mm Rod to the cent of universal joint, 14mm
-// on Mini Delta (3DR)
+// Horizontal offset of the universal joints on the carriages.
 #define DELTA_CARRIAGE_OFFSET 19.5 // mm
 
 // Effective horizontal distance bridged by diagonal push rods.
@@ -572,12 +570,12 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 
 // Preheat Constants
 #define PLA_PREHEAT_HOTEND_TEMP 180
-#define PLA_PREHEAT_HPB_TEMP 70
-#define PLA_PREHEAT_FAN_SPEED 255   // Insert Value between 0 and 255
+#define PLA_PREHEAT_HPB_TEMP 0
+#define PLA_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
 
 #define ABS_PREHEAT_HOTEND_TEMP 240
-#define ABS_PREHEAT_HPB_TEMP 100
-#define ABS_PREHEAT_FAN_SPEED 255   // Insert Value between 0 and 255
+#define ABS_PREHEAT_HPB_TEMP 0
+#define ABS_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
 
 //LCD and SD support
 //#define ULTRA_LCD  //general LCD support, also 16x2
