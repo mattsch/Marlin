@@ -120,8 +120,9 @@
 // Center-to-center distance of the holes in the diagonal push rods.
 #define DELTA_DIAGONAL_ROD 215.00 // mm
 
+// M666 X-0.60 Y-0.80 Z-0.30 - ENDSTOP offsets - 10/11/14
 // Horizontal offset from middle of printer to smooth rod center.
-#define DELTA_SMOOTH_ROD_OFFSET 165 // mm
+#define DELTA_SMOOTH_ROD_OFFSET 161.2 // mm
 
 // Horizontal offset of the universal joints on the end effector.
 #define DELTA_EFFECTOR_OFFSET 20 // mm
