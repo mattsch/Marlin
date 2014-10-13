@@ -240,9 +240,10 @@
 //    #define  DEFAULT_Ki 2.25
 //    #define  DEFAULT_Kd 440
 // My J-HEAD
-    #define  DEFAULT_Kp 30.48
-    #define  DEFAULT_Ki 2.54
-    #define  DEFAULT_Kd 91.38
+// M301 P48.09 I6.18 D93.57
+    #define  DEFAULT_Kp 48.09
+    #define  DEFAULT_Ki 6.18
+    #define  DEFAULT_Kd 93.57
 #endif // PIDTEMP
 
 // Bed Temperature Control
