@@ -9,7 +9,7 @@
 // startup. Implementation of an idea by Prof Braino to inform user that any changes made to this
 // build by the user have been successfully uploaded into firmware.
 #define STRING_VERSION_CONFIG_H __DATE__ " " __TIME__ // build date and time
-#define STRING_CONFIG_H_AUTHOR "(RichCattell, Mini Kossel)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "Matthew Schick" // Who made the changes.
 
 // SERIAL_PORT selects which serial port should be used for communication with the host.
 // This allows the connection of wireless adapters (for instance) to non-default port pins.
@@ -55,11 +55,15 @@
 // 21 = Elefu Ra Board (v3)
 
 #ifndef MOTHERBOARD
-#define MOTHERBOARD 33
+#define MOTHERBOARD 35
 #endif
 
 // Define this to set a custom name for your generic Mendel,
-#define CUSTOM_MENDEL_NAME "Kossel"
+#define CUSTOM_MENDEL_NAME "MKVS FSR"
+
+// Define this to set a unique identifier for this printer, (Used by some programs to differentiate between machines)
+// You can use an online service to generate a random UUID. (eg http://www.uuidgenerator.net/version4)
+#define MACHINE_UUID "da665bc0-8433-4019-817a-d3516dfa1cdf"
 
 // This defines the number of extruders
 #define EXTRUDERS 1
@@ -80,19 +84,22 @@
 // Make delta curves from many straight lines (linear interpolation).
 // This is a trade-off between visible corners (not enough segments)
 // and processor overload (too many expensive sqrt calls).
-#define DELTA_SEGMENTS_PER_SECOND 200
+#define DELTA_SEGMENTS_PER_SECOND 100
+
+// NOTE NB all values for DELTA_* values MOUST be floating point, so always have a decimal point in them
 
 // Center-to-center distance of the holes in the diagonal push rods.
-#define DEFAULT_DELTA_DIAGONAL_ROD 217.5 // mm
+#define DEFAULT_DELTA_DIAGONAL_ROD 215.00 // mm
 
+// M666 X-0.60 Y-0.80 Z-0.30 - ENDSTOP offsets - 10/11/14
 // Horizontal offset from middle of printer to smooth rod center.
-#define DELTA_SMOOTH_ROD_OFFSET 156.4 // mm //158
+#define DELTA_SMOOTH_ROD_OFFSET 161.2 // mm
 
 // Horizontal offset of the universal joints on the end effector.
-#define DELTA_EFFECTOR_OFFSET 24 // mm 
+#define DELTA_EFFECTOR_OFFSET 20 // mm
 
 // Horizontal offset of the universal joints on the carriages.
-#define DELTA_CARRIAGE_OFFSET 24 // mm  
+#define DELTA_CARRIAGE_OFFSET 27 // mm
 
 // Effective horizontal distance bridged by diagonal push rods.
 #define DEFAULT_DELTA_RADIUS (DELTA_SMOOTH_ROD_OFFSET-DELTA_EFFECTOR_OFFSET-DELTA_CARRIAGE_OFFSET)
@@ -101,19 +108,19 @@
 //#define DEBUG_MESSAGES
 
 // Precision for G30 delta autocalibration function
-#define AUTOCALIBRATION_PRECISION 0.03 // mm
+#define AUTOCALIBRATION_PRECISION 0.05 // mm
 
 // Diameter of print bed - this is used to set the distance that autocalibration probes the bed at.
-#define BED_DIAMETER 170 // mm
+#define BED_DIAMETER 115 // mm
 
 // Z-Probe variables
 // Start and end location values are used to deploy/retract the probe (will move from start to end and back again) 
 #define PROBING_FEEDRATE 100/10*60  // Speed for individual probe Use: G30 A F600
-#define Z_PROBE_OFFSET {0, 10, -5.6, 0}  // X, Y, Z, E distance between hotend nozzle and deployed bed leveling probe.
-#define Z_PROBE_DEPLOY_START_LOCATION {20, 96, 30, 0}   // X, Y, Z, E start location for z-probe deployment sequence
-#define Z_PROBE_DEPLOY_END_LOCATION {5, 96, 30, 0} 	  // X, Y, Z, E end location for z-probe deployment sequence
-#define Z_PROBE_RETRACT_START_LOCATION {49, 84, 20, 0}  // X, Y, Z, E start location for z-probe retract sequence
-#define Z_PROBE_RETRACT_END_LOCATION {49, 84, 1, 0}     // X, Y, Z, E end location for z-probe retract sequence 
+#define Z_PROBE_OFFSET {0, 0, 0, 0}  // X, Y, Z, E distance between hotend nozzle and deployed bed leveling probe.
+#define Z_PROBE_DEPLOY_START_LOCATION {0, 0, 0, 10}   // X, Y, Z, E start location for z-probe deployment sequence
+#define Z_PROBE_DEPLOY_END_LOCATION {0, 0, 0, 10} 	  // X, Y, Z, E end location for z-probe deployment sequence
+#define Z_PROBE_RETRACT_START_LOCATION {0, 0, 0, 10}  // X, Y, Z, E start location for z-probe retract sequence
+#define Z_PROBE_RETRACT_END_LOCATION {0, 0, 0, 10}     // X, Y, Z, E end location for z-probe retract sequence 
 
 #define AUTOLEVEL_GRID 24 // Distance between autolevel Z probing points, should be less than print surface radius/3.
 
@@ -146,7 +153,7 @@
 // 52 is 200k thermistor - ATC Semitec 204GT-2 (1k pullup)
 // 55 is 100k thermistor - ATC Semitec 104GT-2 (Used in ParCan) (1k pullup)
 
-#define TEMP_SENSOR_0 1
+#define TEMP_SENSOR_0 5
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_BED 0
@@ -171,10 +178,10 @@
 // When temperature exceeds max temp, your heater will be switched off.
 // This feature exists to protect your hotend from overheating accidentally, but *NOT* from thermistor short/failure!
 // You should use MINTEMP for thermistor short/failure protection.
-#define HEATER_0_MAXTEMP 275
-#define HEATER_1_MAXTEMP 275
-#define HEATER_2_MAXTEMP 275
-#define BED_MAXTEMP 150
+#define HEATER_0_MAXTEMP 235
+#define HEATER_1_MAXTEMP 235
+#define HEATER_2_MAXTEMP 235
+#define BED_MAXTEMP 140
 
 // If your bed has low resistance e.g. .6 ohm and throws the fuse you can duty cycle it to reduce the
 // average current. The value should be an integer and the heat bed will be turned on for 1 interval of
@@ -195,13 +202,13 @@
   #define K1 0.95 //smoothing factor within the PID
   #define PID_dT ((16.0 * 8.0)/(F_CPU / 64.0 / 256.0)) //sampling period of the temperature routine
 
-// If you are using a preconfigured hotend then you can use one of the value sets by uncommenting it
-// J-Head with 12v 40W heater cartridge
-    #define  DEFAULT_Kp 15.34
-    #define  DEFAULT_Ki 1.57
-    #define  DEFAULT_Kd 37.45
+// If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
+// Ultimaker
+//    #define  DEFAULT_Kp 22.2
+//    #define  DEFAULT_Ki 1.08
+//    #define  DEFAULT_Kd 114
 
-// Makergear
+// MakerGear
 //    #define  DEFAULT_Kp 7.0
 //    #define  DEFAULT_Ki 0.1
 //    #define  DEFAULT_Kd 12
@@ -210,6 +217,11 @@
 //    #define  DEFAULT_Kp 63.0
 //    #define  DEFAULT_Ki 2.25
 //    #define  DEFAULT_Kd 440
+// My J-HEAD
+// M301 P48.09 I6.18 D93.57
+    #define  DEFAULT_Kp 48.09
+    #define  DEFAULT_Ki 6.18
+    #define  DEFAULT_Kd 93.57
 #endif // PIDTEMP
 
 // Bed Temperature Control
@@ -256,7 +268,7 @@
 //if PREVENT_DANGEROUS_EXTRUDE is on, you can still disable (uncomment) very long bits of extrusion separately.
 #define PREVENT_LENGTHY_EXTRUDE
 
-#define EXTRUDE_MINTEMP 170
+#define EXTRUDE_MINTEMP 160
 #define EXTRUDE_MAXLENGTH (X_MAX_LENGTH+Y_MAX_LENGTH) //prevent extrusion of very large distances.
 
 //===========================================================================
@@ -331,10 +343,10 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 #define min_software_endstops true // If true, axis won't move to coordinates less than HOME_POS.
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
 // Travel limits after homing
-#define X_MAX_POS 90
-#define X_MIN_POS -90
-#define Y_MAX_POS 90
-#define Y_MIN_POS -90
+#define X_MAX_POS 80
+#define X_MIN_POS -80
+#define Y_MAX_POS 80
+#define Y_MIN_POS -80
 #define Z_MAX_POS MANUAL_Z_HOME_POS
 #define Z_MIN_POS 0
 
@@ -350,17 +362,18 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 // For deltabots this means top and center of the cartesian print volume.
 #define MANUAL_X_HOME_POS 0
 #define MANUAL_Y_HOME_POS 0
-#define MANUAL_Z_HOME_POS 258  // For delta: Distance between nozzle and print surface after homing.
+//#define MANUAL_Z_HOME_POS 0
+#define MANUAL_Z_HOME_POS 238.30 // For delta: Distance between nozzle and print surface after homing.
 
 //// MOVEMENT SETTINGS
 #define NUM_AXIS 4 // The axis order in all axis related arrays is X, Y, Z, E
-#define HOMING_FEEDRATE {200*60, 200*60, 200*60, 0}  // set the homing speeds (mm/min)
+#define HOMING_FEEDRATE {100*60, 100*60, 100*60, 0}  // set the homing speeds (mm/min)
 
 // default settings
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {80, 80, 80, 439.5}
-#define DEFAULT_MAX_FEEDRATE          {200, 200, 200, 200}    // (mm/sec)
-#define DEFAULT_MAX_ACCELERATION      {9000,9000,9000,9000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {80, 80, 80, 673.65}  // default steps per unit for Ultimaker
+#define DEFAULT_MAX_FEEDRATE          {300, 300, 300, 60}    // (mm/sec)
+#define DEFAULT_MAX_ACCELERATION      {4500, 4500, 4500, 4500}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for Skeinforge 40+, for older versions raise them a lot.
 
 #define DEFAULT_ACCELERATION          3000    // X, Y, Z and E max acceleration in mm/s^2 for printing moves
 #define DEFAULT_RETRACT_ACCELERATION  3000   // X, Y, Z and E max acceleration in mm/s^2 for retracts
@@ -393,12 +406,12 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 
 // Preheat Constants
 #define PLA_PREHEAT_HOTEND_TEMP 180
-#define PLA_PREHEAT_HPB_TEMP 70
-#define PLA_PREHEAT_FAN_SPEED 255   // Insert Value between 0 and 255
+#define PLA_PREHEAT_HPB_TEMP 0
+#define PLA_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
 
 #define ABS_PREHEAT_HOTEND_TEMP 240
-#define ABS_PREHEAT_HPB_TEMP 100
-#define ABS_PREHEAT_FAN_SPEED 255   // Insert Value between 0 and 255
+#define ABS_PREHEAT_HPB_TEMP 0
+#define ABS_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
 
 //LCD and SD support
 //#define ULTRA_LCD  //general lcd support, also 16x2
@@ -415,7 +428,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 
 // The RepRapDiscount Smart Controller (white PCB)
 // http://reprap.org/wiki/RepRapDiscount_Smart_Controller
-//#define REPRAP_DISCOUNT_SMART_CONTROLLER
+#define REPRAP_DISCOUNT_SMART_CONTROLLER
 
 // The GADGETS3D G3D LCD/SD Controller (blue PCB)
 // http://reprap.org/wiki/RAMPS_1.3/1.4_GADGETS3D_Shield_with_Panel
@@ -540,12 +553,17 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 #endif
 
 // Increase the FAN pwm frequency. Removes the PWM noise but increases heating in the FET/Arduino
-//#define FAST_PWM_FAN
+#define FAST_PWM_FAN
+
+// Temperature status LEDs that display the hotend and bet temperature.
+// If all hotends and bed temperature and temperature setpoint are < 54C then the BLUE led is on.
+// Otherwise the RED led is on. There is 1C hysteresis.
+//#define TEMP_STAT_LEDS
 
 // Use software PWM to drive the fan, as for the heaters. This uses a very low frequency
 // which is not ass annoying as with the hardware PWM. On the other hand, if this frequency
 // is too low, you should also increment SOFT_PWM_SCALE.
-//#define FAN_SOFT_PWM
+#define FAN_SOFT_PWM
 
 // Incrementing this by 1 will double the software PWM frequency,
 // affecting heaters, and the fan if FAN_SOFT_PWM is enabled.
