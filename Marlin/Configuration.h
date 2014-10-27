@@ -835,25 +835,25 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 #include "thermistortables.h"
 
 #endif //__CONFIGURATION_H
-// Recv: echo:Steps per unit:
-// Recv: echo:  M92 X80.00 Y80.00 Z80.00 E708.20
-// Recv: echo:Maximum feedrates (mm/s):
-// Recv: echo:  M203 X300.00 Y300.00 Z300.00 E60.00
-// Recv: echo:Maximum Acceleration (mm/s2):
-// Recv: echo:  M201 X4500 Y4500 Z4500 E4500
-// Recv: echo:Acceleration: S=acceleration, T=retract acceleration
-// Recv: echo:  M204 S3000.00 T3000.00
-// Recv: echo:Advanced variables: S=Min feedrate (mm/s), T=Min travel feedrate (mm/s), B=minimum segment time (ms), X=maximum XY jerk (mm/s),  Z=maximum Z jerk (mm/s),  E=maximum E jerk (mm/s)
-// Recv: echo:  M205 S0.00 T0.00 B20000 X20.00 Z20.00 E15.00
-// Recv: echo:Home offset (mm):
-// Recv: echo:  M206 X0.00 Y0.00 Z-0.52
-// Recv: echo:Endstop adjustement (mm):
-// Recv: echo:  M666 X-1.10 Y-0.20 Z-0.20
-// Recv: echo:Delta settings: L=delta_diagonal_rod, R=delta_radius, S=delta_segments_per_second
-// Recv: echo:  M665 L216.47 R114.30 S100.00
-// Recv: echo:PID settings:
-// Recv: echo:   M301 P48.09 I6.18 D93.57
-// Recv: echo:Retract: S=Length (mm) F:Speed (mm/m) Z: ZLift (mm)
-// Recv: echo:   M207 S3.00 F2700.00 Z0.00
-// Recv: echo:Recover: S=Extra length (mm) F:Speed (mm/m)
-// Recv: echo:   M208 S0.00 F480.00
+// M92 X80.00 Y80.00 Z80.00 E708.20
+// Maximum feedrates (mm/s):
+// M203 X300.00 Y300.00 Z300.00 E60.00
+// Maximum Acceleration (mm/s2):
+// M201 X5000 Y5000 Z5000 E5000
+// Acceleration: S=acceleration, T=retract acceleration
+// M204 S3000.00 T3000.00
+// Advanced variables: S=Min feedrate (mm/s), T=Min travel feedrate (mm/s), B=minimum segment time (ms), X=maximum XY jerk (mm/s),  Z=maximum Z jerk (mm/s),  E=maximum E jerk (mm/s)
+// M205 S0.00 T0.00 B20000 X20.00 Z20.00 E20.00
+// Home offset (mm):
+// M206 X0.00 Y0.00 Z-0.53
+// Endstop adjustement (mm):
+// M666 X-0.80 Y-0.20 Z-0.10
+// Delta settings: L=delta_diagonal_rod, R=delta_radius, S=delta_segments_per_second
+// M665 L216.47 R114.30 S100.00
+// PID settings:  
+// M301 P48.09 I6.18 D93.57
+// Retract: S=Length (mm) F:Speed (mm/m) Z: ZLift (mm)
+// M207 S3.00 F2700.00 Z0.00
+// Recover: S=Extra length (mm) F:Speed (mm/m)
+// M208 S0.00 F480.00
+ 
