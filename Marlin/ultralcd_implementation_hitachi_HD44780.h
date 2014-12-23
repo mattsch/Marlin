@@ -198,7 +198,7 @@ extern volatile uint16_t buttons;  //an extended version of the last checked but
 
 #else
   // Standard directly connected LCD implementations
-  #if LANGUAGE_CHOICE == 6
+  #if LANGUAGE_CHOICE == ru
     #include "LiquidCrystalRus.h"
     #define LCD_CLASS LiquidCrystalRus
   #else 
@@ -523,9 +523,23 @@ static void lcd_implementation_status_screen()
     }
 #endif
 
-    //Status message line on the last line
+    //Display both Status message line and Filament display on the last line
+    #ifdef FILAMENT_LCD_DISPLAY
+      if(message_millis+5000>millis()){  //display any status for the first 5 sec after screen is initiated
+         	 lcd.setCursor(0, LCD_HEIGHT - 1);
+        	 lcd.print(lcd_status_message);
+        } else {
+		     lcd.setCursor(0,LCD_HEIGHT - 1);
+		     lcd_printPGM(PSTR("Dia "));
+		     lcd.print(ftostr12ns(filament_width_meas));
+		     lcd_printPGM(PSTR(" V"));
+		     lcd.print(itostr3(100.0*volumetric_multiplier[FILAMENT_SENSOR_EXTRUDER_NUM]));
+    		 lcd.print('%');
+        }
+    #else
     lcd.setCursor(0, LCD_HEIGHT - 1);
     lcd.print(lcd_status_message);
+    #endif
 }
 static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, char pre_char, char post_char)
 {
